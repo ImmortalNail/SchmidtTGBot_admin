@@ -73,7 +73,7 @@ async def process_birth(message: Message, state: FSMContext):
     await state.clear()
 
 def append_row_to_sheet(data_list: list, sheet_id: str):
-    gc = gspread.service_account(filename="tg-bot-drive-key.json")
+    gc = gspread.service_account(filename="Schmidt_bot.json")
     sh = gc.open_by_key(sheet_id)
     worksheet = sh.sheet1
     worksheet.append_row(data_list)

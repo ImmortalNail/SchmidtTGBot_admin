@@ -24,7 +24,7 @@ async def handle_photo(message: Message, state: FSMContext):
     local_path = os.path.join(folder, f"{photo.file_unique_id}.jpg")
 
     # Скачиваем файл используя file.download (НЕ photo.download!)
-    await file.download(destination_file=local_path)
+    await message.bot.download_file(file.file_path, destination=local_path)
 
     # Сохраняем путь в базу
     db.save_photo_path(message.from_user.id, local_path)

@@ -13,8 +13,9 @@ async def handle_photo(message: Message, state: FSMContext):
     photo = message.photo[-1]
     file_id = photo.file_id
 
-    # Получаем путь к файлу у Telegram
+    # Получаем объект File от Telegram
     file = await message.bot.get_file(file_id)
+
     # Создаем папку для пользователя, если нет
     folder = f"media/{message.from_user.id}/"
     os.makedirs(folder, exist_ok=True)
@@ -22,13 +23,13 @@ async def handle_photo(message: Message, state: FSMContext):
     # Локальный путь сохранения фото
     local_path = os.path.join(folder, f"{photo.file_unique_id}.jpg")
 
-    # Скачиваем фото локально
-    await photo.download(destination_file=local_path)
+    # Скачиваем файл используя file.download (НЕ photo.download!)
+    await file.download(destination_file=local_path)
 
     # Сохраняем путь в базу
     db.save_photo_path(message.from_user.id, local_path)
 
-    # Загружаем на Google Drive (функция upload_file_to_drive — из твоего utils)
+    # Загружаем на Google Drive (функция upload_file_to_drive из utils)
     drive_link = upload_file_to_drive(local_path, folder_id="1DgPREeT2cnDcEE8NHdhlEdLwRvgGjdx2")
 
     await message.answer(f"Фото получено и сохранено!\nСсылка на Google Drive: {drive_link}")

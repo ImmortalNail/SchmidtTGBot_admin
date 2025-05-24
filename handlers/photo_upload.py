@@ -1,32 +1,34 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.types import Message
+from aiogram.fsm.context import FSMContext
 from storage import db
 from utils.drive_uploader import upload_file_to_drive
 import os
 
 router = Router()
 
-@router.message(lambda m: m.photo)
-async def handle_photo(message: Message):
-    file = message.photo[-1]
-    file_id = file.file_id
-    file_path = await message.bot.get_file(file_id)
-    f = await message.bot.download_file(file_path.file_path)
+@router.message(F.photo)
+async def handle_photo(message: Message, state: FSMContext):
+    # Получаем самый большой размер фото
+    photo = message.photo[-1]
+    file_id = photo.file_id
+
+    # Получаем путь к файлу у Telegram
+    file = await message.bot.get_file(file_id)
+    # Создаем папку для пользователя, если нет
     folder = f"media/{message.from_user.id}/"
     os.makedirs(folder, exist_ok=True)
-    filename = folder + file_id + ".jpg"
-    with open(filename, "wb") as out_file:
-        out_file.write(f.read())
 
-db.save_photo_path(message.from_user.id, filename)
-await message.answer("Фото сохранено!")
-async def handle_photo(message: Message, state: FSMContext):
-    photo = message.photo[-1]
-    file = await message.bot.get_file(photo.file_id)
-    file_path = f"media/{photo.file_unique_id}.jpg"
-    await photo.download_to_drive(file_path)
+    # Локальный путь сохранения фото
+    local_path = os.path.join(folder, f"{photo.file_unique_id}.jpg")
 
-    # загружаем в Google Drive
-    drive_link = upload_file_to_drive(file_path, folder_id="1DgPREeT2cnDcEE8NHdhlEdLwRvgGjdx2")
+    # Скачиваем фото локально
+    await photo.download(destination_file=local_path)
 
-    await message.answer(f"Фото получено и сохранено!\nСсылка: {drive_link}")
+    # Сохраняем путь в базу
+    db.save_photo_path(message.from_user.id, local_path)
+
+    # Загружаем на Google Drive (функция upload_file_to_drive — из твоего utils)
+    drive_link = upload_file_to_drive(local_path, folder_id="1DgPREeT2cnDcEE8NHdhlEdLwRvgGjdx2")
+
+    await message.answer(f"Фото получено и сохранено!\nСсылка на Google Drive: {drive_link}")

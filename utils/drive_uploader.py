@@ -4,7 +4,9 @@ import os
 
 def init_drive():
     gauth = GoogleAuth()
-    gauth.LoadServiceConfigSettings()
+    # Загружаем настройки из файла client_secrets.json
+    # Если используешь Service Account, убедись, что файл JSON указан верно
+    gauth.LoadServiceConfigSettings()  # загружает settings.yaml, если есть
     gauth.credentials = gauth.LoadServiceAccountCredentialsFromFile('Schmidt_bot.json')
     drive = GoogleDrive(gauth)
     return drive

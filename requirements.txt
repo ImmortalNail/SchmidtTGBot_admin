@@ -1,0 +1,8 @@
+python-telegram-bot==20.3
+gspread
+oauth2client
+pydrive
+aiogram==3.1.1
+python-dotenv
+aiohttp
+aiosqlite

@@ -7,9 +7,9 @@ from config import BOT_TOKEN
 from handlers import registration, photo_upload, admin
 
 async def main():
-logging.basicConfig(level=logging.INFO)
-bot = Bot(BOT_TOKEN)
-dp = Dispatcher(storage=MemoryStorage())
+    logging.basicConfig(level=logging.INFO)
+    bot = Bot(BOT_TOKEN)
+    dp = Dispatcher(storage=MemoryStorage())
 
 dp.include_routers(
     registration.router,

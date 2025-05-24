@@ -8,15 +8,15 @@ router = Router()
 
 @router.message(lambda m: m.photo)
 async def handle_photo(message: Message):
-file = message.photo[-1]
-file_id = file.file_id
-file_path = await message.bot.get_file(file_id)
-f = await message.bot.download_file(file_path.file_path)
-folder = f"media/{message.from_user.id}/"
-os.makedirs(folder, exist_ok=True)
-filename = folder + file_id + ".jpg"
-with open(filename, "wb") as out_file:
-    out_file.write(f.read())
+    file = message.photo[-1]
+    file_id = file.file_id
+    file_path = await message.bot.get_file(file_id)
+    f = await message.bot.download_file(file_path.file_path)
+    folder = f"media/{message.from_user.id}/"
+    os.makedirs(folder, exist_ok=True)
+    filename = folder + file_id + ".jpg"
+    with open(filename, "wb") as out_file:
+        out_file.write(f.read())
 
 db.save_photo_path(message.from_user.id, filename)
 await message.answer("Фото сохранено!")

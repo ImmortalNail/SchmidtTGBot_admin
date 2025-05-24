@@ -24,13 +24,13 @@ path TEXT
 conn.commit()
 
 def save_user(tg_id, name, dob):
-cursor.execute("INSERT INTO users (tg_id, name, dob) VALUES (?, ?, ?)", (tg_id, name, dob))
-conn.commit()
+    cursor.execute("INSERT INTO users (tg_id, name, dob) VALUES (?, ?, ?)", (tg_id, name, dob))
+    conn.commit()
 
 def save_photo_path(tg_id, path):
-cursor.execute("INSERT INTO photos (tg_id, path) VALUES (?, ?)", (tg_id, path))
-conn.commit()
+    cursor.execute("INSERT INTO photos (tg_id, path) VALUES (?, ?)", (tg_id, path))
+    conn.commit()
 
 def get_all_users():
-cursor.execute("SELECT tg_id, name, dob FROM users")
-return [{"id": row[0], "name": row[1], "dob": row[2]} for row in cursor.fetchall()]
+    cursor.execute("SELECT tg_id, name, dob FROM users")
+    return [{"id": row[0], "name": row[1], "dob": row[2]} for row in cursor.fetchall()]

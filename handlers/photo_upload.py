@@ -4,32 +4,33 @@ from aiogram.fsm.context import FSMContext
 from storage import db
 from utils.drive_uploader import upload_file_to_drive
 import os
+import asyncio
 
 router = Router()
 
 @router.message(F.photo)
 async def handle_photo(message: Message, state: FSMContext):
-    # Получаем самый большой размер фото
-    photo = message.photo[-1]
-    file_id = photo.file_id
+    try:
+        photo = message.photo[-1]
+        file_id = photo.file_id
+        file = await message.bot.get_file(file_id)
 
-    # Получаем объект File от Telegram
-    file = await message.bot.get_file(file_id)
+        folder = f"media/{message.from_user.id}/"
+        os.makedirs(folder, exist_ok=True)
 
-    # Создаем папку для пользователя, если нет
-    folder = f"media/{message.from_user.id}/"
-    os.makedirs(folder, exist_ok=True)
+        local_path = os.path.join(folder, f"{photo.file_unique_id}.jpg")
 
-    # Локальный путь сохранения фото
-    local_path = os.path.join(folder, f"{photo.file_unique_id}.jpg")
+        await message.bot.download_file(file.file_path, destination=local_path)
 
-    # Скачиваем файл используя file.download (НЕ photo.download!)
-    await message.bot.download_file(file.file_path, destination=local_path)
+        db.save_photo_path(message.from_user.id, local_path)
 
-    # Сохраняем путь в базу
-    db.save_photo_path(message.from_user.id, local_path)
+        drive_link = await asyncio.to_thread(
+            upload_file_to_drive,
+            local_path,
+            folder_id="1DgPREeT2cnDcEE8NHdhlEdLwRvgGjdx2"
+        )
 
-    # Загружаем на Google Drive (функция upload_file_to_drive из utils)
-    drive_link = upload_file_to_drive(local_path, folder_id="1DgPREeT2cnDcEE8NHdhlEdLwRvgGjdx2")
+        await message.answer(f"Фото получено и сохранено!\nСсылка на Google Drive: {drive_link}")
 
-    await message.answer(f"Фото получено и сохранено!\nСсылка на Google Drive: {drive_link}")
+    except Exception as e:
+        await message.answer(f"Произошла ошибка при обработке фото: {e}")

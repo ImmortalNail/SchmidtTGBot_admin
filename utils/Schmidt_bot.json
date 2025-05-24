@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "light-cathode-460519-b1",
+  "private_key_id": "2d165c65892e160469d785f434dab025b255dfc3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCx1I62Ku58C/Nv\nmH2vuZx9aeoaTes0oWHQh6ztRXe1LLpCME4+LnsI+hjiZMKadEyaG/R77Lwi9OLb\nfa3w53o3wxogTX3aolFJrxG5qW1oTabSQykYq9HM0gziWUEHGrpLsDbDmh3khf4z\nD4uqwQJb/BAdNqKlrwnMObBcjE4FSAJYmHwlvMfUu1gZcAzRHYAkZ/Nf7kBkDwV1\nQqr3U9hquFhhu0yGl3n91A8vlxz5kL2TlsJR4OMmjljPEWopGcNyLDeztxLGZTY3\nWNA28jADcbvYdx5V6ujiZaSFwqT+PWj2Xq1uZtMlcj4ecWw+5ThWSWexkRHf3KtD\nsnFY4P+dAgMBAAECggEAC2OEB5mkmrAp6oM3GsUbMb2nPwEE0mLlgJ/id3L5UX09\nqSsuekqqxC6UNRI5PlVladc8J0ry2kBEXm85mmc7YLfaLqhtKiPhay55nEzZU2fp\ntPyVH13dpVhBzVCPBWqfn2T31OYZX6nPLQD5XmRXB4ITRskEI0fxq4Z5oNZhfB1U\nJUpQMgouR3n1+U2wUKYDw3IDbjM+VcBOi72EwH0H78Kt6c8+sxkHE7o1A+Baevc7\notF94CSNqVmF9uuAAK+Q7zAtwR9iyL9HpRqtWRwWsloAyaDxOZTxfqX7gxlhs/Co\nKDJKMtm5aTuXO97wwCfYUSxTYuLoyz8mEPsJITE0BwKBgQDvVbG33pOCv/7NfKKx\nywGPlsAtBARAUUNOUDd6BS74s8L74vx8xLj74sFXZKVKOa2LsAhvHsvk3LxE0XGr\nYyvfKC72zRy9xenoZIh3FeBC+FN8SZHJKOknOesPCxu03ONordr0ecI5VJsItmha\nV1dXlK8lPGNOhy6qb3lZt5upewKBgQC+NoEkZw7mtEqEYAMf0bngqr4Yi4JHVaLS\nS0r7EV2aOauw3ChPORj8IiGLfwae4BwLeFJQ3QjeFvYI8bZMFXXrmldil2y5iAvI\nroNjLPUbr9Gpk8V+LBJPwd0b8cydFACmW3TOSN6cLUQdViyM8/22FHvr/yNksfzm\nTJEzbdpzxwKBgB+F8fp93oACOdVm7Sbtzi7TdEx5kvXFvk+6URRJSn6Hbs8ufoMQ\nhiznGQAhyYOVRT542SOJsuFaEZIe5BHm5ghmiokHSxnTz5NEapUE1Jz9iEF+jy0n\nrk30WvmIRQX1ch5/h69bujFC64iiPexoRKDMfKUy5wGY3JSmSh1/CYmxAoGAGySb\n+R3buoAvwgQRbhD3fV/gEJCX3qYRvgCQipNH0CI6pdpExklXj2MvdkCCKVnBpsFc\nvb1M7qRIJ66WXPUTBrPXlHIXScJoLBL7HMPlljXYrWIw5HhVhJwdeUdf82pPTW3v\nlSBA4/hxp94MLXED21/A70RRQKVFeXejoLskWTECgYATCDqq35mW4GrviSfANcM/\nys8lh8VTDBQWqp115OxRHvzZLN/5eYdlRfnudIfoThPGt8uCQZ+Xg0nDNDN9xJRe\nJkzWLWjH/8KeDC0X+JgwJ5Oo+YspA+B4yns0Am1CQmj0LI+tW8LQZ4VXWv/UOLRW\nkUCVwTrJrL+n4h5c6flOKQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "bartourtgbot@light-cathode-460519-b1.iam.gserviceaccount.com",
+  "client_id": "117690453202746185651",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bartourtgbot%40light-cathode-460519-b1.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

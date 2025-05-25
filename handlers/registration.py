@@ -7,7 +7,6 @@ from storage import db
 import gspread
 import re
 import os
-import gspread
 import json
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, date
@@ -15,13 +14,12 @@ from datetime import datetime, date
 router = Router()
 
 class RegState(StatesGroup):
-    consent = State()        # Новый первый шаг — согласие
+    consent = State()
     full_name = State()
     birth_date = State()
 
 @router.message(Command("start"))
 async def start(message: Message, state: FSMContext):
-    # Запрашиваем согласие первым
     await message.answer(
         "Для продолжения регистрации необходимо согласие на обработку персональных данных.\n"
         "Пожалуйста, напишите 'да' для согласия или 'нет' для отказа."
@@ -38,7 +36,6 @@ async def process_consent(message: Message, state: FSMContext):
         await state.clear()
         return await message.answer("Регистрация отменена из-за отказа от обработки данных.")
 
-    # Если согласился — спрашиваем ФИО
     await message.answer("Введите ФИО (не менее 3 символов):")
     await state.set_state(RegState.full_name)
 
@@ -69,10 +66,17 @@ async def process_birth(message: Message, state: FSMContext):
         return await message.answer("Извините, регистрация доступна только для совершеннолетних.")
 
     await state.update_data(birth_date=message.text)
-
-    # Сохраняем пользователя после успешной проверки
     data = await state.get_data()
+
     db.save_user(message.from_user.id, data["full_name"], data["birth_date"])
+
+    sheet_id = "ВАШ_SPREADSHEET_ID_ТУТ"
+    row = [str(message.from_user.id), data["full_name"], data["birth_date"]]
+    try:
+        append_row_to_sheet(row, sheet_id)
+    except Exception as e:
+        await message.answer(f"Ошибка при записи в Google Sheets: {e}")
+
     await message.answer("Спасибо, вы зарегистрированы. Можете загружать фото.")
     await state.clear()
 
@@ -82,7 +86,6 @@ def append_row_to_sheet(data_list: list, sheet_id: str):
         raise ValueError("Переменная окружения GOOGLE_SERVICE_ACCOUNT_JSON не установлена")
 
     info = json.loads(json_str)
-
     scopes = ['https://www.googleapis.com/auth/spreadsheets']
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(info, scopes=scopes)
 

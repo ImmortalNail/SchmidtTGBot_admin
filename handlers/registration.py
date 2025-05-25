@@ -6,6 +6,10 @@ from aiogram.fsm.context import FSMContext
 from storage import db
 import gspread
 import re
+import os
+import gspread
+import json
+from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, date
 
 router = Router()
@@ -73,7 +77,16 @@ async def process_birth(message: Message, state: FSMContext):
     await state.clear()
 
 def append_row_to_sheet(data_list: list, sheet_id: str):
-    gc = gspread.service_account(filename="Schmidt_bot.json")
+    json_str = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if not json_str:
+        raise ValueError("Переменная окружения GOOGLE_SERVICE_ACCOUNT_JSON не установлена")
+
+    info = json.loads(json_str)
+
+    scopes = ['https://www.googleapis.com/auth/spreadsheets']
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(info, scopes=scopes)
+
+    gc = gspread.authorize(credentials)
     sh = gc.open_by_key(sheet_id)
     worksheet = sh.sheet1
     worksheet.append_row(data_list)

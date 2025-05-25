@@ -6,7 +6,7 @@ from google.oauth2.service_account import Credentials
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
-def upload_file_to_drive(file_path: str, folder_id: str) -> str:
+def upload_file_to_drive(file_path: str, folder_id: str, file_name: str = None) -> str:
     # Чтение JSON-ключа из переменной окружения
     json_str = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
     if not json_str:
@@ -16,8 +16,11 @@ def upload_file_to_drive(file_path: str, folder_id: str) -> str:
     creds = Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
     service = build('drive', 'v3', credentials=creds)
 
+    if file_name is None:
+        file_name = os.path.basename(file_path)
+
     file_metadata = {
-        'name': os.path.basename(file_path),
+        'name': file_name,
         'parents': [folder_id]
     }
     media = MediaFileUpload(file_path, resumable=True)
